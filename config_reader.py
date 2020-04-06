@@ -8,6 +8,8 @@ DEFAULT_CONFIG = {
   "fullscreen": False,
   "width": 1024,
   "height": 768,
+  "fontsize": 14,
+  "fontfamily": "Courier New",
   "bgcolor": "#000000",
   "color": "#00ff00",
   "working_path": "f:\\zakon\\f3os\\",
@@ -21,13 +23,25 @@ DEFAULT_CONFIG = {
     "help": "show_help"
   },
   "texts": {
-    "directory_header": ["______Dirrectory_______"],
+    "directory_header": ["-----------Dirrectories-----------"],
     "directory_corrupted": ["Uszkodzony katalog..."],
+    "directory_missing": ["Brak podanego katalogu..."],
     "unknown_command": ["Nieznane polecenie. Wpisz help, aby uzyskac liste polecen."],
     "file_corrupted": ["Brak lub uszkodzony plik"],
     "missing_help_text": ["Brak tekstu do pomocy..."],
-    "access_denied": ["Brak dostepu..."]
-  }
+    "access_denied": ["Brak dostepu..."],
+    "app_header": [
+      "# F3OS ZEAP (C)2073                              #",
+      "# TERMINAL #1; NETWORK: ZSP_LOCAL; USER: UNKNOWN #",
+      "##################################################"],
+    "help": [
+      "Lista polecen:",
+      "cd nazwa_katalogu - zmienia obecny katalog na wybrany",
+      "cd .. - zmien katalog na nadrzedny ",
+      "open nazwa_pliku - otwiera plik w trybie odczytu",
+      "bypass nazwa_pliku - ominiecie zabezpieczenia",
+    ]
+  },
 }
 
 
@@ -51,8 +65,8 @@ class ConfigReader:
   def get_config(self):
     return self._config
 
-  def get(self, key):
-    return self._config[key]
+  def get(self, key, alternative=None):
+    return self._config.get(key, alternative)
 
   def set(self, key, value):
     if key == "commands":
@@ -61,5 +75,5 @@ class ConfigReader:
     self._config[key] = value
     return True
 
-  def get_text(self, key):
-    return self._config.get('texts', {}).get(key, "Missing texts in config...")
+  def get_text(self, key, alternative="Missing texts in config..."):
+    return self._config.get('texts', {}).get(key, alternative)
